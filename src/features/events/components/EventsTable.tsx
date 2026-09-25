@@ -13,6 +13,7 @@ import {
   Chip,
 } from '@mui/material';
 import { Event } from '../types';
+import { formatCurrency, truncateDescription } from '../../../shared/utils';
 
 interface EventsTableProps {
   events: Event[];
@@ -38,36 +39,11 @@ export function EventsTable({ events, loading }: EventsTableProps) {
     setSelectedEvent(null);
   };
 
-  const getTicketStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'available':
-      case 'active':
-        return 'success';
-      case 'sold out':
-      case 'sold':
-        return 'error';
-      case 'reserved':
-        return 'warning';
-      default:
-        return 'default';
-    }
-  };
 
-  const formatCurrency = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(price);
-  };
-
-  const truncateDescription = (description: string, maxLength: number) => {
-    if (description.length <= maxLength) return description;
-    return description.slice(0, maxLength) + '...';
-  };
 
   return (
     <>
-      <TableContainer component={Paper} sx={{ maxWidth: { xs: '100%', md: 1200 }, mx: 'auto', mt: 2 }}>
+      <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
@@ -168,8 +144,6 @@ export function EventsTable({ events, loading }: EventsTableProps) {
           sx: {
             mt: 1,
             p: 2,
-            minWidth: 300,
-            maxWidth: 400,
           },
         }}
       >
@@ -204,7 +178,6 @@ export function EventsTable({ events, loading }: EventsTableProps) {
               <Chip
                 label={ticket.status}
                 size="small"
-                color={getTicketStatusColor(ticket.status)}
                 variant="outlined"
               />
             </Box>
