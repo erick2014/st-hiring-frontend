@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Typography, Alert, Box } from '@mui/material';
+import { Container, Typography, Alert } from '@mui/material';
 import { fetchEvents } from '../eventsApi';
 import { setLoading, setEvents, setError } from '../eventsSlice';
 import { Spinner } from '../../../shared/components/Spinner/Spinner';
@@ -35,7 +35,7 @@ export function EventsList() {
 
   if (loading) {
     return (
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Container sx={{ mt: 4, mb: 4 }}>
         <Spinner />
       </Container>
     );
@@ -43,7 +43,7 @@ export function EventsList() {
 
   if (error) {
     return (
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Container sx={{ mt: 4, mb: 4 }}>
         <Alert severity="error" variant="filled">
           <Typography variant="body1" component="span" fontWeight="bold" mr={1}>
             Error:
@@ -56,7 +56,7 @@ export function EventsList() {
 
   if (events.length === 0) {
     return (
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Container sx={{ mt: 4, mb: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
           Events
         </Typography>
@@ -68,7 +68,7 @@ export function EventsList() {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+    <Container>
       <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
         Events
       </Typography>
