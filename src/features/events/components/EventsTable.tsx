@@ -39,8 +39,6 @@ export function EventsTable({ events, loading }: EventsTableProps) {
     setSelectedEvent(null);
   };
 
-
-
   return (
     <>
       <TableContainer component={Paper}>
