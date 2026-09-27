@@ -12,5 +12,5 @@ export interface Event {
   date: Date;
   location: string;
   description: string;
-  availableTickets: Ticket[];
+  availableTickets: number
 }
