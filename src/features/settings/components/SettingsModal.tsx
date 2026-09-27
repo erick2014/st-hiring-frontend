@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -7,6 +7,7 @@ import {
   Alert,
   Box,
   CircularProgress,
+  Snackbar,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSettings, saveSettings } from '../settingsApi';
@@ -25,6 +26,16 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
   const settings = useSelector(selectSettings);
   const loading = useSelector(selectSettingsLoading);
   const error = useSelector(selectSettingsError);
+
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [snackMessage, setSnackMessage] = useState('');
+  const [snackSeverity, setSnackSeverity] = useState<'success' | 'error'>('success');
+
+  const showSnackbar = (message: string, severity: 'success' | 'error') => {
+    setSnackMessage(message);
+    setSnackSeverity(severity);
+    setSnackOpen(true);
+  };
 
   useEffect(() => {
     if (open) {
@@ -47,47 +58,59 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
     try {
       await saveSettings(data);
       dispatch(setSettings({ ...settings, ...data }));
+      showSnackbar('Settings saved successfully', 'success');
       onClose();
     } catch {
       dispatch(setError('Failed to save settings'));
+      showSnackbar('Failed to save settings', 'error');
     }
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth="sm"
-      fullWidth
-      PaperProps={{
-        sx: { minHeight: 300 },
-      }}
-    >
-      <DialogTitle>
-        <Typography variant="h6" fontWeight="bold">Configure Settings</Typography>
-      </DialogTitle>
-      <DialogContent>
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
+    <>
+      <Dialog
+        open={open}
+        onClose={onClose}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: { minHeight: 300 },
+        }}
+      >
+        <DialogTitle>
+          <Typography variant="h6" fontWeight="bold">App Settings</Typography>
+        </DialogTitle>
+        <DialogContent>
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
 
-        {loading 
-          ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-                <CircularProgress />
-              </Box>
-            ) 
-          : (
-              <SettingsForm
-                initialSettings={settings}
-                onSave={handleSave}
-                isSaving={false}
-              />
-            ) 
-        }
-      </DialogContent>
-    </Dialog>
+          {loading
+            ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+                  <CircularProgress />
+                </Box>
+              )
+            : (
+                <SettingsForm
+                  initialSettings={settings}
+                  onSave={handleSave}
+                />
+              )}
+        </DialogContent>
+      </Dialog>
+      <Snackbar
+        open={snackOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert severity={snackSeverity} variant="filled">
+          {snackMessage}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
