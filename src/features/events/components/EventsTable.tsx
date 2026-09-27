@@ -41,7 +41,7 @@ export function EventsTable({ events, loading }: EventsTableProps) {
 
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{marginTop: "20px"}}>
         <Table>
           <TableHead>
             <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
