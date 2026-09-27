@@ -19,7 +19,6 @@ export function EventsList() {
 
   useEffect(() => {
     const loadData = async () => {
-      console.log("calling load Data...")
       try {
         dispatch(setLoading(true));
         const data = await fetchEvents();
