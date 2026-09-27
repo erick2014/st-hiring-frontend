@@ -2,11 +2,10 @@ import { EventsPage } from '../pages/EventsPage';
 import { SettingsPage } from '../pages/SettingsPage';
 
 export function App() {
-  return(
+  return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-        <SettingsPage />
-        <EventsPage />;
+      <SettingsPage />
+      <EventsPage />
     </div>
-  )
-  return 
+  );
 }
