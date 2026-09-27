@@ -46,14 +46,11 @@ export function EventsList() {
     );
   }
 
-  if (events.length === 0) {
+  if (!events.length) {
     return (
       <Container sx={{ mt: 4, mb: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
-          Events
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          No events found
+         No events found
         </Typography>
       </Container>
     );
