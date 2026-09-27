@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Settings } from './types';
 
 interface SettingsState {
-  settings: Settings | {};
+  settings: Settings;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: SettingsState = {
-  settings: {},
+  settings: {} as Settings,
   loading: false,
   error: null,
 };
@@ -17,7 +17,7 @@ const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    setSettings: (state, action: PayloadAction<Settings | {}>) => {
+    setSettings: (state, action: PayloadAction<Settings>) => {
       state.settings = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
