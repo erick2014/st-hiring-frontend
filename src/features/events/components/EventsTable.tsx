@@ -13,7 +13,7 @@ import {
   Chip,
 } from '@mui/material';
 import { Event } from '../types';
-import { formatCurrency, truncateDescription } from '../../../shared/utils';
+import { truncateDescription } from '../../../shared/utils';
 
 interface EventsTableProps {
   events: Event[];
@@ -110,14 +110,14 @@ export function EventsTable({ events, loading }: EventsTableProps) {
                       <Chip
                         label={
                           <Typography variant="body2" fontWeight="bold">
-                            {event.availableTickets.length}
+                            {event.availableTickets}
                           </Typography>
                         }
-                        color={event.availableTickets.length > 0 ? 'primary' : 'default'}
-                        variant={event.availableTickets.length > 0 ? 'filled' : 'outlined'}
+                        color={event.availableTickets > 0 ? 'primary' : 'default'}
+                        variant={event.availableTickets > 0 ? 'filled' : 'outlined'}
                         clickable
                         onClick={(e) => handleTicketsClick(e, event)}
-                        sx={{ cursor: event.availableTickets.length > 0 ? 'pointer' : 'default' }}
+                        sx={{ cursor: event.availableTickets > 0 ? 'pointer' : 'default' }}
                       />
                     </TableCell>
                   </TableRow>
@@ -138,23 +138,16 @@ export function EventsTable({ events, loading }: EventsTableProps) {
           vertical: 'top',
           horizontal: 'center',
         }}
-        PaperProps={{
-          sx: {
-            mt: 1,
-            p: 2,
-          },
-        }}
       >
         <Typography variant="h6" gutterBottom>
           {selectedEvent?.name} - Tickets
         </Typography>
         <Typography variant="body2" color="text.secondary" gutterBottom>
-          {selectedEvent?.availableTickets.length} ticket(s) available
+          {selectedEvent?.availableTickets} ticket(s) available
         </Typography>
         <Box sx={{ mt: 1 }}>
-          {selectedEvent?.availableTickets.map((ticket: { id: number; type: string; status: string; price: number }) => (
             <Box
-              key={ticket.id}
+              key={"1"}
               sx={{
                 p: 1.5,
                 mb: 1,
@@ -167,19 +160,18 @@ export function EventsTable({ events, loading }: EventsTableProps) {
             >
               <Box>
                 <Typography variant="body2" fontWeight="bold">
-                  {ticket.type}
+                  event type here
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {formatCurrency(ticket.price)}
+                  ticket price here
                 </Typography>
               </Box>
               <Chip
-                label={ticket.status}
+                label={"available"}
                 size="small"
                 variant="outlined"
               />
             </Box>
-          ))}
         </Box>
         <Box sx={{ textAlign: 'right', mt: 1 }}>
           <Typography
