@@ -18,6 +18,7 @@ export function EventsList() {
       try {
         setLoading(true);
         const data = await fetchEvents();
+        // intentionally handle this state locally, instead of using Redux, since other components don't need to know about this data
         setEvents(data);
       } catch (err) {
         setError('Failed to fetch events');
