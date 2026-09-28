@@ -1,1 +1,1 @@
-export { formatDate, formatCurrency, truncateDescription } from './helpers';
+export { formatDate, truncateDescription } from './helpers';

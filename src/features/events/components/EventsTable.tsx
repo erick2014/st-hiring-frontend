@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -9,11 +8,10 @@ import {
   Paper,
   Typography,
   Box,
-  Popover,
   Chip,
 } from '@mui/material';
 import { Event } from '../types';
-import { truncateDescription } from '../../../shared/utils';
+import { formatDate, truncateDescription } from '../../../shared/utils';
 
 interface EventsTableProps {
   events: Event[];
@@ -21,24 +19,6 @@ interface EventsTableProps {
 }
 
 export function EventsTable({ events, loading }: EventsTableProps) {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-
-  const open = Boolean(anchorEl);
-
-  const handleTicketsClick = (
-    event: React.MouseEvent<HTMLElement>,
-    eventItem: Event
-  ) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedEvent(eventItem);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setSelectedEvent(null);
-  };
-
   return (
     <>
       <TableContainer component={Paper} sx={{marginTop: "20px"}}>
@@ -91,11 +71,7 @@ export function EventsTable({ events, loading }: EventsTableProps) {
                     </TableCell>
                     <TableCell>
                       <Typography variant="body2">
-                        {new Intl.DateTimeFormat('en-US', {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                        }).format(new Date(event.date))}
+                        {formatDate(event.date)}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -116,7 +92,6 @@ export function EventsTable({ events, loading }: EventsTableProps) {
                         color={event.availableTickets > 0 ? 'primary' : 'default'}
                         variant={event.availableTickets > 0 ? 'filled' : 'outlined'}
                         clickable
-                        onClick={(e) => handleTicketsClick(e, event)}
                         sx={{ cursor: event.availableTickets > 0 ? 'pointer' : 'default' }}
                       />
                     </TableCell>
@@ -125,65 +100,6 @@ export function EventsTable({ events, loading }: EventsTableProps) {
           </TableBody>
         </Table>
       </TableContainer>
-
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <Typography variant="h6" gutterBottom>
-          {selectedEvent?.name} - Tickets
-        </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          {selectedEvent?.availableTickets} ticket(s) available
-        </Typography>
-        <Box sx={{ mt: 1 }}>
-            <Box
-              key={"1"}
-              sx={{
-                p: 1.5,
-                mb: 1,
-                borderRadius: 1,
-                bgcolor: '#f5f5f5',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Box>
-                <Typography variant="body2" fontWeight="bold">
-                  event type here
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  ticket price here
-                </Typography>
-              </Box>
-              <Chip
-                label={"available"}
-                size="small"
-                variant="outlined"
-              />
-            </Box>
-        </Box>
-        <Box sx={{ textAlign: 'right', mt: 1 }}>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            onClick={handleClose}
-            sx={{ cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
-          >
-            Close
-          </Typography>
-        </Box>
-      </Popover>
     </>
   );
 }

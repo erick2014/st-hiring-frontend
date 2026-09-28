@@ -13,7 +13,7 @@ const initialState: SettingsState = {
   error: null,
 };
 
-const settingsSlice = createSlice({
+export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
